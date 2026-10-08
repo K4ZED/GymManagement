@@ -200,7 +200,7 @@ Akun TRAINER dan MEMBER dibuat lewat `/trainers` dan `/members`.
 
 | Method | Path | Role | Keterangan |
 |---|---|---|---|
-| GET | `/health` | publik | `{ status: 'ok' }` |
+| GET | `/health` | publik | `{ status: 'ok', region }` (`region` = region Vercel, `local` di laptop) |
 
 ---
 

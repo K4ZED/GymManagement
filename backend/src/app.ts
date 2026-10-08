@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 app.get('/api/health', (_req, res) => {
-  res.json({ data: { status: 'ok' } });
+  res.json({ data: { status: 'ok', region: process.env.VERCEL_REGION ?? 'local' } });
 });
 
 app.use('/api/auth', authRouter);
