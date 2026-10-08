@@ -4,3 +4,4 @@ dist
 prisma/*.db
 prisma/*.db-journal
 prisma/schema.sqlite.prisma
+.env.vercel

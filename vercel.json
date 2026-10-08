@@ -4,7 +4,8 @@
     "backend": {
       "root": "backend",
       "framework": "express",
-      "entrypoint": "src/index.ts"
+      "entrypoint": "src/index.ts",
+      "installCommand": "npm ci"
     },
     "frontend": {
       "root": "frontend",
