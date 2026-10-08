@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Arah visual: "papan latihan" — utilitarian, tipografi condensed ala papan jadwal gym,
+ * kertas hangat + tinta, satu aksen oranye sinyal yang dipakai hemat. Tanpa gradien,
+ * tanpa bayangan tebal, sudut kecil. Ubah token di sini untuk mengganti tema/aksen.
+ */
+:root {
+  --bg: #f3f2ee;
+  --surface: #fbfaf7;
+  --surface-2: #ebe9e3;
+  --border: #d9d6ce;
+  --text: #161513;
+  --muted: #6b675f;
+  --ink: #161513;
+  --ink-fg: #f3f2ee;
+  --primary: #d9480f;
+  --primary-fg: #ffffff;
+  --primary-soft: #f8e4d9;
+  --success: #2f7d32;
+  --success-soft: #e2efdc;
+  --warning: #a86200;
+  --warning-soft: #f6e9cf;
+  --danger: #c0262d;
+  --danger-soft: #f6dcdc;
+  --info: #285e9e;
+  --info-soft: #dde7f2;
+}
+
+.dark {
+  --bg: #0f0f0e;
+  --surface: #171715;
+  --surface-2: #22211e;
+  --border: #33322d;
+  --text: #edebe5;
+  --muted: #9b978d;
+  --ink: #edebe5;
+  --ink-fg: #0f0f0e;
+  --primary: #ff6a2b;
+  --primary-fg: #140700;
+  --primary-soft: #3a1c0e;
+  --success: #74c27a;
+  --success-soft: #19281a;
+  --warning: #e6a63d;
+  --warning-soft: #2e2412;
+  --danger: #f2676c;
+  --danger-soft: #331718;
+  --info: #7fb0e8;
+  --info-soft: #172433;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Archivo Narrow', ui-sans-serif, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-ink: var(--ink);
+  --color-ink-fg: var(--ink-fg);
+  --color-primary: var(--primary);
+  --color-primary-fg: var(--primary-fg);
+  --color-primary-soft: var(--primary-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Di dalam layer base agar utilitas warna border (border-primary, dll.) tetap menang */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+  }
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-fg);
+}
+
+@layer components {
+  /* Judul ala papan jadwal: condensed, huruf besar */
+  .display {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+  }
+  /* Label kecil berhuruf besar untuk kepala kolom & keterangan */
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+}

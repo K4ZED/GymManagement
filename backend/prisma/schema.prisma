@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  STAFF
+  TRAINER
+  MEMBER
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum BookingStatus {
+  BOOKED
+  CANCELLED
+  ATTENDED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  member   Member?
+  trainer  Trainer?
+  checkIns CheckIn[] @relation("CheckedInBy")
+}
+
+model Member {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  memberCode       String    @unique
+  gender           Gender?
+  birthDate        DateTime?
+  address          String?
+  emergencyContact String?
+  joinedAt         DateTime  @default(now())
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  memberships Membership[]
+  bookings    Booking[]
+  checkIns    CheckIn[]
+}
+
+model Trainer {
+  id             String  @id @default(cuid())
+  userId         String  @unique
+  specialization String?
+  bio            String?
+
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions ClassSession[]
+}
+
+model Plan {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  durationDays Int
+  price        Int // Rupiah
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  memberships Membership[]
+}
+
+model Membership {
+  id          String    @id @default(cuid())
+  memberId    String
+  planId      String
+  startDate   DateTime
+  endDate     DateTime
+  price       Int // snapshot harga plan saat dibuat
+  notes       String?
+  cancelledAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  plan   Plan   @relation(fields: [planId], references: [id])
+
+  @@index([memberId, endDate])
+}
+
+model ClassSession {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  trainerId   String
+  startAt     DateTime
+  endAt       DateTime
+  capacity    Int
+  room        String?
+  cancelledAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  trainer  Trainer   @relation(fields: [trainerId], references: [id])
+  bookings Booking[]
+
+  @@index([startAt])
+}
+
+model Booking {
+  id        String        @id @default(cuid())
+  sessionId String
+  memberId  String
+  status    BookingStatus @default(BOOKED)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  session ClassSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  member  Member       @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, memberId])
+}
+
+model CheckIn {
+  id            String   @id @default(cuid())
+  memberId      String
+  checkedInAt   DateTime @default(now())
+  checkedInById String?
+
+  member      Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  checkedInBy User?  @relation("CheckedInBy", fields: [checkedInById], references: [id])
+
+  @@index([checkedInAt])
+}
