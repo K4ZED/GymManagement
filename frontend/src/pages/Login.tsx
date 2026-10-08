@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
 import { homeFor, useAuth } from '@/lib/auth'
 import { useI18n } from '@/i18n'
 import type { Role } from '@/types'
@@ -7,7 +8,9 @@ import { Button, Field, FormError, Input } from '@/components/ui'
 import { Preferences } from '@/components/Preferences'
 import { Logo } from '@/layouts/AdminLayout'
 
-// Akun seed dari backend (lihat API_CONTRACT.md) — hanya ditampilkan saat development
+// Akun seed dari backend (lihat API_CONTRACT.md). Tombol masuk cepat tampil kecuali VITE_DEMO_LOGIN=false
+const SHOW_DEMO = import.meta.env.VITE_DEMO_LOGIN !== 'false'
+const DEMO_PASSWORD = 'password123'
 const demoAccounts: { role: Role; email: string }[] = [
   { role: 'ADMIN', email: 'admin@gym.test' },
   { role: 'STAFF', email: 'staff@gym.test' },
@@ -22,20 +25,24 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const [submitting, setSubmitting] = useState(false)
+  const [submitting, setSubmitting] = useState<string | null>(null) // email yang sedang diproses
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault()
+  async function signIn(mail: string, pass: string) {
     setError('')
-    setSubmitting(true)
+    setSubmitting(mail)
     try {
-      const user = await login(email, password)
+      const user = await login(mail, pass)
       navigate(homeFor(user.role), { replace: true })
     } catch (err) {
       setError(tError(err))
     } finally {
-      setSubmitting(false)
+      setSubmitting(null)
     }
+  }
+
+  function onSubmit(e: FormEvent) {
+    e.preventDefault()
+    void signIn(email, password)
   }
 
   return (
@@ -66,7 +73,32 @@ export default function LoginPage() {
           <form onSubmit={onSubmit} className="w-full max-w-sm">
             <h1 className="display text-5xl">{t('auth.title')}</h1>
             <p className="mt-2 text-sm text-muted">{t('auth.subtitle')}</p>
-            <div className="mt-8 space-y-4">
+
+            {SHOW_DEMO && (
+              <div className="mt-8">
+                <p className="eyebrow mb-2">{t('auth.quickLogin')}</p>
+                <div className="grid grid-cols-2 border-t border-l">
+                  {demoAccounts.map((a) => (
+                    <button
+                      key={a.email}
+                      type="button"
+                      disabled={!!submitting}
+                      onClick={() => signIn(a.email, DEMO_PASSWORD)}
+                      className="group flex flex-col items-start border-r border-b bg-surface px-3 py-3 text-left transition hover:bg-ink hover:text-ink-fg disabled:opacity-60"
+                    >
+                      <span className="display flex items-center gap-2 text-2xl">
+                        {t(`role.${a.role}`)}
+                        {submitting === a.email && <Loader2 size={16} className="animate-spin" />}
+                      </span>
+                      <span className="font-mono text-[11px] text-muted group-hover:text-ink-fg/70">{a.email}</span>
+                    </button>
+                  ))}
+                </div>
+                <p className="eyebrow mt-8">{t('auth.orManual')}</p>
+              </div>
+            )}
+
+            <div className={SHOW_DEMO ? 'mt-3 space-y-4' : 'mt-8 space-y-4'}>
               <Field label={t('auth.email')}>
                 {(id) => <Input id={id} type="email" autoComplete="email" required value={email} onChange={(e) => setEmail(e.target.value)} />}
               </Field>
@@ -74,33 +106,11 @@ export default function LoginPage() {
                 {(id) => <Input id={id} type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} />}
               </Field>
               <FormError message={error} />
-              <Button type="submit" size="lg" className="w-full" loading={submitting}>
+              <Button type="submit" size="lg" className="w-full" loading={submitting === email && !!email} disabled={!!submitting}>
                 {t('auth.login')}
               </Button>
             </div>
 
-            {import.meta.env.DEV && (
-              <div className="mt-10 border-t pt-4">
-                <p className="eyebrow mb-2">{t('auth.demo')}</p>
-                <ul className="divide-y text-sm">
-                  {demoAccounts.map((a) => (
-                    <li key={a.email}>
-                      <button
-                        type="button"
-                        className="flex w-full items-center justify-between py-2 text-left hover:text-primary"
-                        onClick={() => {
-                          setEmail(a.email)
-                          setPassword('password123')
-                        }}
-                      >
-                        <span className="font-mono text-xs">{a.email}</span>
-                        <span className="eyebrow">{t(`role.${a.role}`)}</span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </form>
         </div>
       </div>
