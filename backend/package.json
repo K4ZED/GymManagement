@@ -4,14 +4,16 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
+    "predev": "npm run db:local:client",
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
+    "postinstall": "prisma generate",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "db:seed": "prisma db seed",
-    "db:reset": "prisma migrate reset"
+    "db:local:client": "node scripts/sqlite-schema.js && prisma generate --schema prisma/schema.sqlite.prisma",
+    "db:local:setup": "npm run db:local:client && prisma db push --schema prisma/schema.sqlite.prisma --skip-generate && npm run db:seed",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:supabase:migrate": "prisma generate && prisma migrate deploy"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

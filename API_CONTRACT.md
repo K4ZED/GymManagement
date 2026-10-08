@@ -8,7 +8,7 @@
 - Format: JSON. Tanggal/waktu: ISO 8601 (`2026-10-08T07:00:00.000Z`). Uang: integer Rupiah (`300000`).
 - Auth: header `Authorization: Bearer <token>` untuk semua endpoint kecuali `POST /auth/login` dan `GET /health`. Token berlaku 1 hari; jika `401` → arahkan ke login.
 - CORS default mengizinkan `http://localhost:5173`.
-- Menjalankan backend: lihat `backend/README.md` (SQLite lokal, `npm run dev`). `npm run db:seed` untuk reset data demo.
+- Menjalankan backend: lihat `backend/README.md` (SQLite lokal: sekali `npm run db:local:setup`, lalu `npm run dev`). `npm run db:seed` untuk reset data demo. Deployment Vercel memakai PostgreSQL Supabase; perilaku API sama.
 
 ### Bentuk respons
 

@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { prisma } from '../lib/prisma';
 import { forbidden, notFound, pageMeta, paginate, paginationSchema, parse, HttpError } from '../lib/http';
+import { containsInsensitive } from '../lib/prisma';
 import { requireRole } from '../middleware/auth';
 import { activeMembershipInclude, serializeMember } from '../lib/serializers';
 import { activeMembershipWhere, addDays, serializeMembership } from '../lib/membership';
@@ -69,9 +70,9 @@ membersRouter.get('/', requireRole('ADMIN', 'STAFF', 'TRAINER'), async (req, res
   const where = {
     ...(q.q && {
       OR: [
-        { memberCode: { contains: q.q } },
-        { user: { name: { contains: q.q } } },
-        { user: { email: { contains: q.q } } },
+        { memberCode: containsInsensitive(q.q) },
+        { user: { name: containsInsensitive(q.q) } },
+        { user: { email: containsInsensitive(q.q) } },
         { user: { phone: { contains: q.q } } },
       ],
     }),

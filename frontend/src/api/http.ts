@@ -1,7 +1,7 @@
 // Klien HTTP ke backend sesuai API_CONTRACT.md
 import type { Paged } from '@/types'
 
-const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? 'http://localhost:4000/api'
+const BASE = (import.meta.env.VITE_API_URL as string | undefined) ?? '/api'
 export const TOKEN_KEY = 'gym.token'
 
 export class ApiError extends Error {

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import { prisma } from '../lib/prisma';
+import { containsInsensitive, prisma } from '../lib/prisma';
 import { HttpError, pageMeta, paginate, paginationSchema, parse } from '../lib/http';
 import { requireRole } from '../middleware/auth';
 import { userPublicSelect } from '../lib/serializers';
@@ -22,8 +22,8 @@ usersRouter.get('/', async (req, res) => {
     role: q.role,
     ...(q.q && {
       OR: [
-        { name: { contains: q.q } },
-        { email: { contains: q.q } },
+        { name: containsInsensitive(q.q) },
+        { email: containsInsensitive(q.q) },
       ],
     }),
   };

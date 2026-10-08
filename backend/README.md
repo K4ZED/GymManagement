@@ -1,21 +1,52 @@
 # Gym Management — Backend
 
 Node.js + Express 5 + TypeScript + Prisma, autentikasi JWT (Bearer token).
-Untuk demo, database memakai **SQLite** lokal (`prisma/dev.db`), tanpa server DB.
+Database: lokal **SQLite** (`prisma/dev.db`), deployment demo (Vercel) **PostgreSQL Supabase**.
 
-## Menjalankan
+`prisma/schema.prisma` (PostgreSQL) adalah satu-satunya sumber schema. Untuk lokal,
+`scripts/sqlite-schema.js` membuat salinan `prisma/schema.sqlite.prisma` (jangan diedit, di-gitignore).
+
+## Menjalankan (lokal)
 
 ```bash
 cp .env.example .env          # isi JWT_SECRET
 npm install
-npx prisma migrate dev        # buat tabel (file prisma/dev.db)
-npm run db:seed               # data contoh (bisa diulang untuk reset demo)
-npm run dev                   # http://localhost:4000
+npm run db:local:setup        # buat tabel SQLite + data contoh
+npm run dev                   # http://localhost:4000 (otomatis generate client SQLite)
+npm run db:seed               # reset data demo kapan saja
 ```
 
-Pindah ke PostgreSQL nanti: ubah `provider` di `prisma/schema.prisma` ke `postgresql`, set `DATABASE_URL`,
-hapus folder `prisma/migrations`, lalu `npx prisma migrate dev`. Tambahkan lagi `mode: 'insensitive'`
-pada filter pencarian `contains` jika perlu pencarian case-insensitive di PostgreSQL.
+Setelah mengubah `schema.prisma`: jalankan `npm run db:local:setup` lagi untuk lokal, lalu buat migrasi
+PostgreSQL untuk Supabase:
+
+```bash
+npx prisma migrate diff --from-url "<session pooler>" --to-schema-datamodel prisma/schema.prisma \
+  --script > prisma/migrations/<timestamp>_<nama>/migration.sql
+```
+
+Catatan: pencarian teks memakai helper `containsInsensitive` (`src/lib/prisma.ts`) karena SQLite tidak
+mendukung `mode: 'insensitive'`.
+
+## Deployment (Vercel + Supabase)
+
+`vercel.json` di root menjalankan backend sebagai service `backend` dan meneruskan `/api/*` ke sana.
+Environment variable di Vercel (service backend):
+
+| Nama | Isi |
+|---|---|
+| `DATABASE_URL` | Supabase transaction pooler (port 6543) + `?pgbouncer=true&connection_limit=1` |
+| `DIRECT_URL` | Supabase session pooler (port 5432) |
+| `JWT_SECRET` | string acak panjang (beda dari lokal) |
+| `CORS_ORIGIN` | domain Vercel, mis. `https://nama-app.vercel.app` |
+
+Migrasi & seed ke Supabase dijalankan dari laptop (bukan saat build). URL ada di `.env` lokal
+(`SUPABASE_DIRECT_URL`). Seed **menghapus semua data** demo lalu mengisi ulang.
+
+```bash
+DATABASE_URL="<session pooler>" DIRECT_URL="<session pooler>" npm run db:supabase:migrate
+DATABASE_URL="<session pooler>" DIRECT_URL="<session pooler>" npm run db:seed
+npm run db:local:client       # kembalikan Prisma client ke SQLite untuk development
+```
 
 ## Akun seed (password: `password123`)
 
@@ -29,7 +60,9 @@ pada filter pencarian `contains` jika perlu pencarian case-insensitive di Postgr
 ## Struktur
 
 ```
-prisma/schema.prisma   model database
+prisma/schema.prisma   model database (sumber utama, PostgreSQL)
+prisma/migrations/     migrasi PostgreSQL (Supabase)
+scripts/               generator schema SQLite untuk lokal
 prisma/seed.ts         data contoh
 src/app.ts             registrasi route
 src/middleware/        auth (JWT, role) & error handler

@@ -10,5 +10,7 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    // Lokal tanpa `vercel dev`: teruskan /api ke backend Express
+    proxy: { '/api': 'http://localhost:4000' },
   },
 })
