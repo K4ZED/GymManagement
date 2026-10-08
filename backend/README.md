@@ -30,6 +30,10 @@ mendukung `mode: 'insensitive'`.
 ## Deployment (Vercel + Supabase)
 
 `vercel.json` di root menjalankan backend sebagai service `backend` dan meneruskan `/api/*` ke sana.
+Service Vercel tidak menyertakan `node_modules` ke function, jadi `npm run build` (`scripts/build.js`)
+mem-bundle server + semua library jadi satu file `dist/server.js` (entrypoint service). Karena itu Prisma
+untuk PostgreSQL memakai `engineType = "client"` + driver adapter `pg` (tanpa engine native); SQLite lokal
+tetap memakai engine bawaan. Cek bundle: `npm run build && node dist/server.js`.
 Environment variable di Vercel (service backend):
 
 | Nama | Isi |

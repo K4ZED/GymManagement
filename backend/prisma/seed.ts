@@ -1,7 +1,7 @@
-import { PrismaClient, type Role } from '@prisma/client';
+import type { Role } from '@prisma/client';
+import { prisma } from '../src/lib/prisma';
 import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
 const PASSWORD = 'password123';
 
 const day = 24 * 60 * 60 * 1000;

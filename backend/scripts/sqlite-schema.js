@@ -8,7 +8,10 @@ const source = fs.readFileSync(path.join(dir, 'schema.prisma'), 'utf8');
 
 const sqlite = source
   .replace(/provider\s*=\s*"postgresql"/, 'provider = "sqlite"')
-  .replace(/^\s*directUrl\s*=.*\n/m, '');
+  .replace(/^\s*directUrl\s*=.*\n/m, '')
+  // Lokal tetap pakai query engine bawaan (tanpa driver adapter)
+  .replace(/^\s*\/\/.*driver adapter.*\n/m, '')
+  .replace(/^\s*engineType\s*=.*\n/m, '');
 
 if (!sqlite.includes('provider = "sqlite"')) throw new Error('Datasource provider "postgresql" tidak ditemukan di schema.prisma');
 

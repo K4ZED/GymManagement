@@ -1,5 +1,7 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  // Tanpa query engine native (pakai driver adapter pg), supaya server bisa di-bundle jadi satu file untuk Vercel
+  engineType = "client"
 }
 
 datasource db {
