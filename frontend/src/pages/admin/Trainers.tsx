@@ -39,7 +39,7 @@ export default function TrainersPage() {
                   <tr key={tr.id} className={tr.isActive ? '' : 'text-muted'}>
                     <Td className="font-semibold">{tr.name}</Td>
                     <Td>{tr.specialization ?? '-'}</Td>
-                    <Td className="text-xs">{tr.phone ?? '-'}</Td>
+                    <Td className="font-mono text-xs">{tr.phone ?? '-'}</Td>
                     <Td className="text-sm">{tr.email}</Td>
                     <Td>{tr.isActive ? <Tag tone="success">{t('common.active')}</Tag> : <Tag>{t('common.inactive')}</Tag>}</Td>
                     <Td className="text-right">

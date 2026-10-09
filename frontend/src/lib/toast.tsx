@@ -42,8 +42,8 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             key={t.id}
             role="status"
             className={clsx(
-              'pointer-events-auto flex max-w-sm items-center gap-2 rounded-md border bg-surface px-4 py-3 text-sm',
-              t.kind === 'success' ? 'text-success' : 'text-danger',
+              'pointer-events-auto flex max-w-sm items-center gap-2 border border-l-4 bg-surface px-4 py-3 text-sm shadow-md',
+              t.kind === 'success' ? 'border-l-success text-success' : 'border-l-danger text-danger',
             )}
           >
             {t.kind === 'success' ? <CheckCircle2 size={18} className="shrink-0" /> : <XCircle size={18} className="shrink-0" />}
@@ -51,7 +51,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             {t.action && (
               <button
                 type="button"
-                className="ml-2 shrink-0 text-sm font-semibold text-text underline underline-offset-4"
+                className="ml-2 shrink-0 text-xs font-semibold text-text uppercase underline decoration-primary decoration-2 underline-offset-4"
                 onClick={() => {
                   t.action!.onClick()
                   dismiss(t.id)

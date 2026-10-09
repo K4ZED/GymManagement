@@ -22,7 +22,10 @@ export default function TrainerClassesPage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="display text-3xl">{t('nav.myClasses')}</h1>
+      <div>
+        <p className="eyebrow">{t('portal.hello', { name: user?.name.split(' ')[0] ?? '' })}</p>
+        <h1 className="display mt-1 text-4xl">{t('nav.myClasses')}</h1>
+      </div>
 
       <QueryView query={query}>
         {(sessions) => {
@@ -46,7 +49,7 @@ export default function TrainerClassesPage() {
                           <span className="display w-12 shrink-0 text-xl">{time(s.startAt)}</span>
                           <div className="min-w-0 flex-1">
                             <p className="truncate font-semibold">{s.name}</p>
-                            <p className="text-xs text-muted">
+                            <p className="font-mono text-[11px] text-muted">
                               {t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}
                               {s.room && `, ${s.room}`}
                             </p>

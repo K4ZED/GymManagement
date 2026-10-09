@@ -213,8 +213,8 @@ export function MembershipModal({ member, onClose, onSaved }: { member: Pick<Mem
               <label key={p.id} className="flex cursor-pointer items-center gap-3 px-3 py-2.5 has-checked:bg-surface-2">
                 <input type="radio" name="plan" className="accent-[var(--ink)]" checked={planId === p.id} onChange={() => setPlanId(p.id)} />
                 <span className="flex-1 text-sm font-medium">{p.name}</span>
-                <span className="text-xs text-muted">{t('plan.days', { n: p.durationDays })}</span>
-                <span className="w-28 text-right text-sm">{money(p.price)}</span>
+                <span className="font-mono text-xs text-muted">{t('plan.days', { n: p.durationDays })}</span>
+                <span className="w-28 text-right font-mono text-sm">{money(p.price)}</span>
               </label>
             ))}
           </div>

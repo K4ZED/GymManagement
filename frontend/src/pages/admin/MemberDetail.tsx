@@ -57,8 +57,8 @@ export default function MemberDetailPage() {
               {/* Kepala: identitas + aksi */}
               <div className="flex flex-col gap-5 border-b pb-6 md:flex-row md:items-end">
                 <div className="flex-1">
-                  <h1 className="display text-3xl sm:text-4xl">{member.name}</h1>
-                  <p className="mt-1 font-mono text-sm text-muted">{member.memberCode}</p>
+                  <p className="font-mono text-sm text-muted">{member.memberCode}</p>
+                  <h1 className="display mt-1 text-5xl sm:text-6xl">{member.name}</h1>
                   <div className="mt-3">
                     <MemberTag member={member} />
                   </div>
@@ -81,11 +81,11 @@ export default function MemberDetailPage() {
                   <Panel title={t('portal.membership')}>
                     {active ? (
                       <div>
-                        <p className="text-xl font-semibold">{active.plan.name}</p>
+                        <p className="display text-3xl">{active.plan.name}</p>
                         <p className="mt-1 text-sm text-muted">
                           {date(active.startDate)} - {date(active.endDate)}
                         </p>
-                        <p className={`mt-3 text-lg font-semibold ${daysUntil(active.endDate) <= 7 ? 'text-warning' : ''}`}>
+                        <p className={`display mt-4 text-3xl ${daysUntil(active.endDate) <= 7 ? 'text-warning' : ''}`}>
                           {t('member.daysLeft', { n: daysUntil(active.endDate) })}
                         </p>
                       </div>
@@ -144,9 +144,9 @@ export default function MemberDetailPage() {
                         {memberships.map((ms) => (
                           <tr key={ms.id}>
                             <Td className="font-medium">{ms.plan.name}</Td>
-                            <Td className="text-xs whitespace-nowrap">{date(ms.startDate)}</Td>
-                            <Td className="text-xs whitespace-nowrap">{date(ms.endDate)}</Td>
-                            <Td className="text-xs whitespace-nowrap">{money(ms.price)}</Td>
+                            <Td className="font-mono text-xs whitespace-nowrap">{date(ms.startDate)}</Td>
+                            <Td className="font-mono text-xs whitespace-nowrap">{date(ms.endDate)}</Td>
+                            <Td className="font-mono text-xs whitespace-nowrap">{money(ms.price)}</Td>
                             <Td>
                               <MembershipTag status={ms.status} />
                             </Td>
@@ -172,7 +172,7 @@ export default function MemberDetailPage() {
                           {checkins.data.map((c) => (
                             <li key={c.id} className="flex justify-between px-4 py-2 text-sm">
                               <span>{date(c.checkedInAt, { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-                              <span className="text-xs text-muted">{time(c.checkedInAt)}</span>
+                              <span className="font-mono text-xs text-muted">{time(c.checkedInAt)}</span>
                             </li>
                           ))}
                         </ul>
@@ -187,7 +187,7 @@ export default function MemberDetailPage() {
                             <li key={b.id} className="flex items-center gap-3 px-4 py-2 text-sm">
                               <div className="min-w-0 flex-1">
                                 <p className="truncate font-medium">{b.session.name}</p>
-                                <p className="text-xs text-muted">
+                                <p className="font-mono text-xs text-muted">
                                   {date(b.session.startAt, { day: 'numeric', month: 'short' })} {time(b.session.startAt)}
                                 </p>
                               </div>

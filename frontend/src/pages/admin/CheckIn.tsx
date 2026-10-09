@@ -61,23 +61,23 @@ export default function CheckInPage() {
 
           {result &&
             (result.ok ? (
-              <div className="rounded-lg border bg-success-soft p-5">
-                <p className="text-sm font-semibold text-success">
+              <div className="border border-l-4 border-l-success bg-surface p-5">
+                <p className="eyebrow text-success!">
                   {t('checkin.success')}, {time(result.checkIn.checkedInAt)}
                 </p>
-                <p className="display mt-2 text-3xl">{result.checkIn.member.name}</p>
+                <p className="display mt-2 text-4xl">{result.checkIn.member.name}</p>
                 <p className="mt-1 font-mono text-sm text-muted">{result.checkIn.member.memberCode}</p>
                 <p className="mt-3 text-sm">
-                  {result.membership.plan.name}, {t('member.validUntil').toLowerCase()} {date(result.membership.endDate)},{' '}
+                  {result.membership.plan.name}, {t('member.validUntil')} {date(result.membership.endDate)},{' '}
                   <span className={daysUntil(result.membership.endDate) <= 7 ? 'font-semibold text-warning' : ''}>
                     {t('member.daysLeft', { n: daysUntil(result.membership.endDate) })}
                   </span>
                 </p>
               </div>
             ) : (
-              <div className="rounded-lg border bg-danger-soft p-5">
+              <div className="border border-l-4 border-l-danger bg-surface p-5">
                 <p className="font-mono text-sm text-muted">{result.code}</p>
-                <p className="mt-1 text-lg font-semibold text-danger">{result.message}</p>
+                <p className="display mt-1 text-3xl text-danger">{result.message}</p>
               </div>
             ))}
         </div>
@@ -92,7 +92,7 @@ export default function CheckInPage() {
                   <ul className="divide-y">
                     {data.map((c) => (
                       <li key={c.id} className="flex items-center gap-3 px-4 py-2.5">
-                        <span className="w-12 text-xs text-muted tabular-nums">{time(c.checkedInAt)}</span>
+                        <span className="w-12 font-mono text-xs text-muted">{time(c.checkedInAt)}</span>
                         <Link to={`/admin/members/${c.member.id}`} className="min-w-0 flex-1 truncate text-sm font-medium hover:underline">
                           {c.member.name}
                         </Link>

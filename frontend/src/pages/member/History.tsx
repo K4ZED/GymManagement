@@ -21,7 +21,7 @@ export default function MemberHistoryPage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="display text-3xl">{t('nav.history')}</h1>
+      <h1 className="display text-4xl">{t('nav.history')}</h1>
       <div className="overflow-x-auto">
         <Segmented<Tab>
           value={tab}
@@ -49,7 +49,7 @@ export default function MemberHistoryPage() {
                     {res.data.map((c) => (
                       <li key={c.id} className="flex justify-between px-4 py-2.5 text-sm">
                         <span>{date(c.checkedInAt, { weekday: 'long', day: 'numeric', month: 'short' })}</span>
-                        <span className="text-xs text-muted">{time(c.checkedInAt)}</span>
+                        <span className="font-mono text-xs text-muted">{time(c.checkedInAt)}</span>
                       </li>
                     ))}
                   </ul>
@@ -72,7 +72,7 @@ export default function MemberHistoryPage() {
                       <li key={b.id} className="flex items-center gap-3 px-4 py-2.5">
                         <div className="min-w-0 flex-1">
                           <p className="truncate text-sm font-semibold">{b.session.name}</p>
-                          <p className="text-xs text-muted">
+                          <p className="font-mono text-xs text-muted">
                             {date(b.session.startAt, { day: 'numeric', month: 'short' })} {time(b.session.startAt)}, {b.session.trainer.name}
                           </p>
                         </div>
@@ -98,7 +98,7 @@ export default function MemberHistoryPage() {
                     <li key={m.id} className="flex items-center gap-3 px-4 py-3">
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-semibold">{m.plan.name}</p>
-                        <p className="text-xs text-muted">
+                        <p className="font-mono text-xs text-muted">
                           {date(m.startDate)} - {date(m.endDate)}, {money(m.price)}
                         </p>
                       </div>

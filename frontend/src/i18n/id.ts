@@ -43,6 +43,7 @@ const id = {
   'auth.email': 'Email',
   'auth.password': 'Kata sandi',
   'auth.title': 'Masuk',
+  'auth.subtitle': 'Untuk staf, trainer, dan member.',
   'auth.quickLogin': 'Masuk cepat dengan akun demo',
   'auth.orManual': 'Atau masuk dengan email',
   'auth.changePassword': 'Ganti kata sandi',

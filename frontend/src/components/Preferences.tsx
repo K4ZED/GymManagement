@@ -10,7 +10,7 @@ export function Preferences({ className }: { className?: string }) {
   const { lang, setLang, t } = useI18n()
   return (
     <div className={clsx('flex items-center gap-1', className)}>
-      <div role="group" aria-label={t('lang.switch')} className="flex text-xs">
+      <div role="group" aria-label={t('lang.switch')} className="flex font-mono text-xs">
         {(['id', 'en'] as Lang[]).map((l, i) => (
           <span key={l} className="flex items-center">
             {i > 0 && <span className="text-border">/</span>}
@@ -18,7 +18,7 @@ export function Preferences({ className }: { className?: string }) {
               type="button"
               onClick={() => setLang(l)}
               aria-pressed={lang === l}
-              className={clsx('px-1.5 py-1 uppercase transition', lang === l ? 'font-semibold text-text underline underline-offset-4' : 'text-muted hover:text-text')}
+              className={clsx('px-1.5 py-1 uppercase transition', lang === l ? 'font-semibold text-text underline decoration-primary decoration-2 underline-offset-4' : 'text-muted hover:text-text')}
             >
               {l}
             </button>

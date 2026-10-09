@@ -25,7 +25,7 @@ export function SimpleBarChart({ data, format, highlightIndex, height = 220 }: {
               active && payload?.length ? (
                 <div className="border bg-surface px-3 py-2 text-xs">
                   <p className="text-muted">{label}</p>
-                  <p className="font-semibold text-text">{format(Number(payload[0].value))}</p>
+                  <p className="font-mono font-semibold text-text">{format(Number(payload[0].value))}</p>
                 </div>
               ) : null
             }

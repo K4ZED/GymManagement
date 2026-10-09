@@ -45,6 +45,7 @@ const en: Dict = {
   'auth.email': 'Email',
   'auth.password': 'Password',
   'auth.title': 'Sign in',
+  'auth.subtitle': 'For staff, trainers and members.',
   'auth.quickLogin': 'Quick sign-in with a demo account',
   'auth.orManual': 'Or sign in with email',
   'auth.changePassword': 'Change password',

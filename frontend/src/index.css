@@ -3,20 +3,19 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Arah visual: utilitarian ala papan jadwal gym. Tipografi condensed hanya untuk judul,
- * palet netral, satu aksen oranye untuk aksi utama dan penanda "hari ini".
- * Ubah token di sini untuk mengganti tema/aksen.
+ * Arah visual: "papan latihan": utilitarian, tipografi condensed ala papan jadwal gym,
+ * kertas hangat + tinta, satu aksen oranye sinyal yang dipakai hemat. Tanpa gradien,
+ * tanpa bayangan tebal, sudut kecil. Ubah token di sini untuk mengganti tema/aksen.
  */
 :root {
-  --bg: #eceef0;
-  --surface: #f8f9fa;
-  --surface-2: #e2e5e9;
-  --border: #d0d4da;
-  --text: #121417;
-  --muted: #5d636d;
-  --ink: #121417;
-  --ink-hover: #2b2f36;
-  --ink-fg: #f8f9fa;
+  --bg: #f3f2ee;
+  --surface: #fbfaf7;
+  --surface-2: #ebe9e3;
+  --border: #d9d6ce;
+  --text: #161513;
+  --muted: #6b675f;
+  --ink: #161513;
+  --ink-fg: #f3f2ee;
   --primary: #d9480f;
   --primary-fg: #ffffff;
   --primary-soft: #f8e4d9;
@@ -31,15 +30,14 @@
 }
 
 .dark {
-  --bg: #0e1012;
-  --surface: #16191c;
-  --surface-2: #20242a;
-  --border: #30353d;
-  --text: #e8eaed;
-  --muted: #9aa1ab;
-  --ink: #e8eaed;
-  --ink-hover: #c9cdd3;
-  --ink-fg: #0e1012;
+  --bg: #0f0f0e;
+  --surface: #171715;
+  --surface-2: #22211e;
+  --border: #33322d;
+  --text: #edebe5;
+  --muted: #9b978d;
+  --ink: #edebe5;
+  --ink-fg: #0f0f0e;
   --primary: #ff6a2b;
   --primary-fg: #140700;
   --primary-soft: #3a1c0e;
@@ -65,7 +63,6 @@
   --color-text: var(--text);
   --color-muted: var(--muted);
   --color-ink: var(--ink);
-  --color-ink-hover: var(--ink-hover);
   --color-ink-fg: var(--ink-fg);
   --color-primary: var(--primary);
   --color-primary-fg: var(--primary-fg);
@@ -103,29 +100,25 @@ body {
   }
 }
 
-/* Hormati pengaturan "kurangi gerakan" dari sistem */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  ::before,
-  ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+::selection {
+  background: var(--primary);
+  color: var(--primary-fg);
 }
 
 @layer components {
-  /* Judul halaman: condensed, huruf besar */
+  /* Judul ala papan jadwal: condensed, huruf besar */
   .display {
     font-family: var(--font-display);
     text-transform: uppercase;
     letter-spacing: 0.01em;
     line-height: 0.95;
   }
-  /* Label kecil (kepala kolom, label field, judul panel): huruf biasa, tanpa tracking */
+  /* Label kecil berhuruf besar untuk kepala kolom & keterangan */
   .eyebrow {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: var(--muted);
   }
 }

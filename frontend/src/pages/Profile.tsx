@@ -16,8 +16,8 @@ export default function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="display text-3xl">{user.name}</h1>
-        <p className="mt-1 text-sm text-muted">{t(`role.${user.role}`)}</p>
+        <p className="eyebrow">{t(`role.${user.role}`)}</p>
+        <h1 className="display mt-1 text-4xl">{user.name}</h1>
       </div>
 
       <Panel

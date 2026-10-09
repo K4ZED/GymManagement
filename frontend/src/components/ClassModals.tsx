@@ -208,7 +208,7 @@ export function ClassDetailModal({
               <div>
                 <div className="mb-2 flex items-baseline justify-between">
                   <h3 className="eyebrow">{t('class.participants')}</h3>
-                  <span className="text-xs text-muted">{t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}</span>
+                  <span className="font-mono text-xs text-muted">{t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}</span>
                 </div>
                 {!s.bookings || s.bookings.length === 0 ? (
                   <div className="border">
