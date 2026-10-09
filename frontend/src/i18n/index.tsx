@@ -70,14 +70,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
           const base = key in dict ? dict[key] : err.message || dict['errors.generic']
           // Detail per-field dari VALIDATION_ERROR
           const details = err.details?.map((d) => `${d.path}: ${d.message}`).join('; ')
-          return details ? `${base} — ${details}` : base
+          return details ? `${base}. ${details}` : base
         }
         return dict['errors.generic']
       },
       money: (n) => moneyFmt.format(n),
       num: (n) => numFmt.format(n),
       date: (iso, opts = { day: 'numeric', month: 'short', year: 'numeric' }) =>
-        iso ? new Intl.DateTimeFormat(locale, opts).format(new Date(iso.length === 10 ? iso + 'T00:00:00' : iso)) : '—',
+        iso ? new Intl.DateTimeFormat(locale, opts).format(new Date(iso.length === 10 ? iso + 'T00:00:00' : iso)) : '-',
       time: (iso) => new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(new Date(iso)),
     }
   }, [lang, setLang])

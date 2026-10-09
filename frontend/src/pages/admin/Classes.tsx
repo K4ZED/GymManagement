@@ -111,7 +111,7 @@ export default function ClassesPage() {
           label: t('class.undo'),
           onClick: () =>
             undo(async () => {
-              // Salinan baru biasanya belum punya booking → hapus; jika sudah ada yang booking, batalkan saja
+              // Salinan baru biasanya belum punya booking, jadi dihapus. Jika sudah ada yang booking, dibatalkan saja.
               try {
                 await api.classes.remove(created.id)
               } catch (err) {
@@ -157,7 +157,7 @@ export default function ClassesPage() {
     <>
       <PageHeader
         title={t('class.title')}
-        meta={`${date(weekStart, { day: 'numeric', month: 'short' })} – ${date(addDays(weekStart, 6), { day: 'numeric', month: 'short', year: 'numeric' })}`}
+        meta={`${date(weekStart, { day: 'numeric', month: 'short' })} - ${date(addDays(weekStart, 6), { day: 'numeric', month: 'short', year: 'numeric' })}`}
         actions={
           <>
             <div className="flex items-center rounded-md border bg-surface">
@@ -208,7 +208,7 @@ export default function ClassesPage() {
               {dragging && (
                 <div className="relative rotate-1 shadow-lg">
                   <ClassCardBody s={dragging} />
-                  <span className="absolute -top-2.5 right-1 flex items-center gap-1 bg-ink px-1.5 py-0.5 text-[10px] font-semibold text-ink-fg uppercase">
+                  <span className="absolute -top-2.5 right-1 flex items-center gap-1 bg-ink px-1.5 py-0.5 text-xs font-semibold text-ink-fg uppercase">
                     {copyMode ? <Copy size={11} /> : <MoveRight size={11} />}
                     {copyMode ? t('class.dragCopy') : t('class.dragMove')}
                   </span>
@@ -262,7 +262,7 @@ function DayColumn({
     >
       <header className={clsx('flex items-baseline justify-between border-b px-3 py-2', isToday && 'bg-ink text-ink-fg')}>
         <span className="display text-lg">{date(day, { weekday: 'short' })}</span>
-        <span className="font-mono text-xs opacity-70">{date(day, { day: 'numeric', month: 'short' })}</span>
+        <span className="text-xs opacity-70">{date(day, { day: 'numeric', month: 'short' })}</span>
       </header>
       <div className="flex-1 space-y-1.5 p-1.5">
         {sessions.map((s) => (
@@ -301,18 +301,21 @@ function DraggableCard({ s, onOpen }: { s: ClassSession; onOpen: () => void }) {
 
 function ClassCardBody({ s, draggable }: { s: ClassSession; draggable?: boolean }) {
   const { t, time } = useI18n()
+  const full = s.availableSlots === 0 && s.status !== 'CANCELLED'
   return (
     <div
       className={clsx(
-        'relative border-l-[3px] bg-bg px-2 py-1.5 transition group-hover:bg-surface-2',
-        s.status === 'CANCELLED' ? 'border-l-danger opacity-55' : s.availableSlots === 0 ? 'border-l-warning' : s.status === 'FINISHED' ? 'border-l-border' : 'border-l-primary',
+        'relative rounded-md border bg-bg px-2 py-1.5 transition group-hover:bg-surface-2',
+        (s.status === 'FINISHED' || s.status === 'CANCELLED') && 'opacity-55',
       )}
     >
       {draggable && <GripVertical size={14} className="absolute top-1.5 right-1 text-muted opacity-0 transition group-hover:opacity-100" />}
-      <p className="font-mono text-[11px] text-muted">{time(s.startAt)}</p>
+      <p className="text-xs text-muted tabular-nums">{time(s.startAt)}</p>
       <p className={clsx('text-sm leading-tight font-semibold', s.status === 'CANCELLED' && 'line-through')}>{s.name}</p>
       <p className="truncate text-xs text-muted">{s.trainer.name}</p>
-      <p className="font-mono text-[11px] text-muted">{t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}</p>
+      <p className={clsx('text-xs tabular-nums', full ? 'font-semibold text-warning' : 'text-muted')}>
+        {s.status === 'CANCELLED' ? t('class.status.CANCELLED') : full ? t('class.full') : t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}
+      </p>
     </div>
   )
 }

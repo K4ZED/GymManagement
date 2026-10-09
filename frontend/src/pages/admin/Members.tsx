@@ -77,8 +77,8 @@ export default function MembersPage() {
                           </Link>
                           <p className="text-xs text-muted">{m.phone ?? m.email}</p>
                         </Td>
-                        <Td>{m.activeMembership?.plan.name ?? <span className="text-muted">—</span>}</Td>
-                        <Td className="font-mono text-xs whitespace-nowrap">{m.activeMembership ? date(m.activeMembership.endDate) : '—'}</Td>
+                        <Td>{m.activeMembership?.plan.name ?? <span className="text-muted">-</span>}</Td>
+                        <Td className="text-xs whitespace-nowrap">{m.activeMembership ? date(m.activeMembership.endDate) : '-'}</Td>
                         <Td>
                           <MemberTag member={m} />
                         </Td>

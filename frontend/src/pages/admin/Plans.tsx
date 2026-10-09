@@ -29,9 +29,9 @@ export default function PlansPage() {
                 {plans.map((p) => (
                   <tr key={p.id} className={p.isActive ? '' : 'text-muted'}>
                     <Td className="font-semibold">{p.name}</Td>
-                    <Td className="font-mono text-xs">{t('plan.days', { n: p.durationDays })}</Td>
-                    <Td className="font-mono text-sm whitespace-nowrap">{money(p.price)}</Td>
-                    <Td className="max-w-xs text-sm text-muted">{p.description ?? '—'}</Td>
+                    <Td className="text-xs">{t('plan.days', { n: p.durationDays })}</Td>
+                    <Td className="text-sm whitespace-nowrap">{money(p.price)}</Td>
+                    <Td className="max-w-xs text-sm text-muted">{p.description ?? '-'}</Td>
                     <Td>{p.isActive ? <Tag tone="success">{t('plan.isActive')}</Tag> : <Tag>{t('common.inactive')}</Tag>}</Td>
                     <Td className="text-right">
                       {isAdmin && (

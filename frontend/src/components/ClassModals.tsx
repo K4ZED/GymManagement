@@ -102,12 +102,12 @@ export function ClassFormModal({ session, defaultDate, onClose, onSaved }: { ses
             {(id) => (
               <Select id={id} required value={form.trainerId} onChange={(e) => set('trainerId', e.target.value)}>
                 <option value="" disabled>
-                  —
+                  {t('common.choose')}
                 </option>
                 {(trainers.data ?? []).map((tr) => (
                   <option key={tr.id} value={tr.id}>
                     {tr.name}
-                    {tr.specialization && ` — ${tr.specialization}`}
+                    {tr.specialization && ` (${tr.specialization})`}
                   </option>
                 ))}
               </Select>
@@ -195,20 +195,20 @@ export function ClassDetailModal({
             <div className="space-y-5">
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="display text-3xl">
-                  {time(s.startAt)}–{time(s.endAt)}
+                  {time(s.startAt)}-{time(s.endAt)}
                 </p>
                 <ClassTag status={s.status} />
               </div>
               <p className="-mt-3 text-sm text-muted">
-                {date(s.startAt, { weekday: 'long', day: 'numeric', month: 'long' })} · {s.trainer.name}
-                {s.room && ` · ${s.room}`}
+                {date(s.startAt, { weekday: 'long', day: 'numeric', month: 'long' })}, {s.trainer.name}
+                {s.room && `, ${s.room}`}
               </p>
               {s.description && <p className="text-sm">{s.description}</p>}
 
               <div>
                 <div className="mb-2 flex items-baseline justify-between">
                   <h3 className="eyebrow">{t('class.participants')}</h3>
-                  <span className="font-mono text-xs text-muted">{t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}</span>
+                  <span className="text-xs text-muted">{t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}</span>
                 </div>
                 {!s.bookings || s.bookings.length === 0 ? (
                   <div className="border">

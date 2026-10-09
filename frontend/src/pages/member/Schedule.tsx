@@ -41,7 +41,7 @@ export default function MemberSchedulePage() {
 
   return (
     <div className="space-y-5">
-      <h1 className="display text-4xl">{t('nav.schedule')}</h1>
+      <h1 className="display text-3xl">{t('nav.schedule')}</h1>
 
       <div className="-mx-4 flex gap-1 overflow-x-auto px-4 pb-1">
         {days.map((d) => (
@@ -52,13 +52,13 @@ export default function MemberSchedulePage() {
             aria-pressed={day === d}
             className={clsx('flex w-14 shrink-0 flex-col items-center border py-2 transition', day === d ? 'border-ink bg-ink text-ink-fg' : 'bg-surface hover:bg-surface-2')}
           >
-            <span className="text-[11px] font-semibold uppercase opacity-70">{date(d, { weekday: 'short' })}</span>
+            <span className="text-xs font-semibold uppercase opacity-70">{date(d, { weekday: 'short' })}</span>
             <span className="display text-2xl">{date(d, { day: 'numeric' })}</span>
           </button>
         ))}
       </div>
 
-      {!hasMembership && <p className="border-l-2 border-warning bg-warning-soft px-3 py-2 text-sm text-warning">{t('errors.NO_ACTIVE_MEMBERSHIP')}</p>}
+      {!hasMembership && <p className="rounded-md bg-warning-soft px-3 py-2 text-sm text-warning">{t('errors.NO_ACTIVE_MEMBERSHIP')}</p>}
 
       <QueryView query={query}>
         {(sessions) => {
@@ -73,15 +73,15 @@ export default function MemberSchedulePage() {
                   <li key={s.id} className="flex gap-4 px-4 py-3">
                     <div className="w-12 shrink-0">
                       <p className="display text-xl">{time(s.startAt)}</p>
-                      <p className="font-mono text-[11px] text-muted">{time(s.endAt)}</p>
+                      <p className="text-xs text-muted">{time(s.endAt)}</p>
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="font-semibold">{s.name}</p>
                       <p className="truncate text-xs text-muted">
                         {s.trainer.name}
-                        {s.room && ` · ${s.room}`}
+                        {s.room && `, ${s.room}`}
                       </p>
-                      <p className="mt-1 font-mono text-[11px] text-muted">{s.availableSlots > 0 ? t('class.slotsLeft', { n: s.availableSlots }) : t('class.full')}</p>
+                      <p className="mt-1 text-xs text-muted">{s.availableSlots > 0 ? t('class.slotsLeft', { n: s.availableSlots }) : t('class.full')}</p>
                     </div>
                     <div className="flex shrink-0 items-center">
                       {mine === 'ATTENDED' ? (

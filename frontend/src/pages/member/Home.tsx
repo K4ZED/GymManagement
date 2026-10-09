@@ -17,24 +17,24 @@ export default function MemberHomePage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="display text-4xl">{t('portal.hello', { name: member.name.split(' ')[0] })}</h1>
+      <h1 className="display text-3xl">{t('portal.hello', { name: member.name.split(' ')[0] })}</h1>
 
       {/* Kartu member: dipakai untuk check-in di meja depan */}
       <div className="bg-ink p-5 text-ink-fg">
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="eyebrow text-ink-fg! opacity-60">{t('portal.membership')}</p>
+            <p className="text-sm opacity-70">{t('portal.membership')}</p>
             {ms ? (
               <>
-                <p className="display mt-1 text-4xl">{ms.plan.name}</p>
+                <p className="display mt-1 text-3xl">{ms.plan.name}</p>
                 <p className="mt-1 text-sm opacity-70">
                   {t('member.validUntil')} {date(ms.endDate)}
                 </p>
-                <p className={`display mt-3 text-2xl ${daysUntil(ms.endDate) <= 7 ? 'text-primary' : ''}`}>{t('member.daysLeft', { n: daysUntil(ms.endDate) })}</p>
+                <p className={`mt-3 text-lg font-semibold ${daysUntil(ms.endDate) <= 7 ? 'text-primary' : ''}`}>{t('member.daysLeft', { n: daysUntil(ms.endDate) })}</p>
               </>
             ) : (
               <>
-                <p className="display mt-1 text-3xl text-primary">{t('portal.inactive')}</p>
+                <p className="mt-1 text-xl font-semibold text-primary">{t('portal.inactive')}</p>
                 <p className="mt-1 text-sm opacity-70">{t('portal.renewHint')}</p>
               </>
             )}
@@ -44,8 +44,8 @@ export default function MemberHomePage() {
           </div>
         </div>
         <div className="mt-5 flex items-end justify-between border-t border-ink-fg/20 pt-3">
-          <p className="font-mono text-lg tracking-wider">{member.memberCode}</p>
-          <p className="max-w-[45%] text-right text-[11px] opacity-60">{t('portal.showQr')}</p>
+          <p className="font-mono text-lg">{member.memberCode}</p>
+          <p className="max-w-[50%] text-right text-xs opacity-70">{t('portal.showQr')}</p>
         </div>
       </div>
 
@@ -53,7 +53,7 @@ export default function MemberHomePage() {
         <div className="mb-2 flex items-baseline justify-between">
           <h2 className="eyebrow">{t('portal.upcoming')}</h2>
           <Link to="/app/schedule" className="text-xs font-semibold text-muted hover:text-text">
-            {t('nav.schedule')} →
+            {t('nav.schedule')}
           </Link>
         </div>
         <div className="border bg-surface">
@@ -72,8 +72,8 @@ export default function MemberHomePage() {
                       <div className="min-w-0">
                         <p className="truncate font-semibold">{b.session.name}</p>
                         <p className="truncate text-xs text-muted">
-                          {time(b.session.startAt)} · {b.session.trainer.name}
-                          {b.session.room && ` · ${b.session.room}`}
+                          {time(b.session.startAt)}, {b.session.trainer.name}
+                          {b.session.room && `, ${b.session.room}`}
                         </p>
                       </div>
                     </li>

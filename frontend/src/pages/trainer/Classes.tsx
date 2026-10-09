@@ -22,10 +22,7 @@ export default function TrainerClassesPage() {
 
   return (
     <div className="space-y-5">
-      <div>
-        <p className="eyebrow">{t('portal.hello', { name: user?.name.split(' ')[0] ?? '' })}</p>
-        <h1 className="display mt-1 text-4xl">{t('nav.myClasses')}</h1>
-      </div>
+      <h1 className="display text-3xl">{t('nav.myClasses')}</h1>
 
       <QueryView query={query}>
         {(sessions) => {
@@ -40,7 +37,7 @@ export default function TrainerClassesPage() {
               {[...byDay.entries()].map(([d, items]) => (
                 <section key={d}>
                   <h2 className="eyebrow mb-2">
-                    {d === today ? t('common.today') : date(d, { weekday: 'long' })} · {date(d, { day: 'numeric', month: 'short' })}
+                    {d === today ? t('common.today') : date(d, { weekday: 'long' })}, {date(d, { day: 'numeric', month: 'short' })}
                   </h2>
                   <ul className="divide-y border bg-surface">
                     {items.map((s) => (
@@ -49,9 +46,9 @@ export default function TrainerClassesPage() {
                           <span className="display w-12 shrink-0 text-xl">{time(s.startAt)}</span>
                           <div className="min-w-0 flex-1">
                             <p className="truncate font-semibold">{s.name}</p>
-                            <p className="font-mono text-[11px] text-muted">
+                            <p className="text-xs text-muted">
                               {t('class.slots', { booked: s.bookedCount, capacity: s.capacity })}
-                              {s.room && ` · ${s.room}`}
+                              {s.room && `, ${s.room}`}
                             </p>
                           </div>
                           <ClassTag status={s.status} />

@@ -9,7 +9,7 @@ import type { PageMeta } from '@/types'
 // primary = tinta (hitam/putih); accent = oranye sinyal, hanya untuk satu aksi utama per layar
 type ButtonVariant = 'primary' | 'accent' | 'secondary' | 'ghost' | 'danger'
 const buttonStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-ink text-ink-fg hover:opacity-85',
+  primary: 'bg-ink text-ink-fg hover:bg-ink-hover',
   accent: 'bg-primary text-primary-fg hover:brightness-110',
   secondary: 'border bg-surface text-text hover:bg-surface-2',
   ghost: 'text-muted hover:bg-surface-2 hover:text-text',
@@ -38,7 +38,7 @@ export function Button({
       type={type}
       disabled={disabled || loading}
       className={clsx(
-        'inline-flex items-center justify-center gap-2 rounded-md font-semibold whitespace-nowrap transition focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-45',
+        'inline-flex items-center justify-center gap-2 rounded-md font-semibold whitespace-nowrap transition focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-bg focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-45',
         size === 'sm' && 'h-8 px-3 text-xs',
         size === 'md' && 'h-10 px-4 text-sm',
         size === 'lg' && 'h-12 px-6 text-base',
@@ -60,7 +60,7 @@ export function IconButton({ label, className, children, ...rest }: ButtonHTMLAt
       aria-label={label}
       title={label}
       className={clsx(
-        'inline-flex size-9 items-center justify-center rounded-md text-muted transition hover:bg-surface-2 hover:text-text focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none',
+        'inline-flex size-9 items-center justify-center rounded-md text-muted transition hover:bg-surface-2 hover:text-text focus-visible:ring-2 focus-visible:ring-ink focus-visible:outline-none',
         className,
       )}
     >
@@ -75,7 +75,7 @@ export function Panel({ className, children, title, action, flush }: { className
     <section className={clsx('rounded-lg border bg-surface', className)}>
       {(title || action) && (
         <header className="flex min-h-11 items-center justify-between gap-2 border-b px-4">
-          <h2 className="eyebrow">{title}</h2>
+          <h2 className="text-sm font-semibold">{title}</h2>
           {action}
         </header>
       )}
@@ -104,7 +104,7 @@ const textStyles: Record<Tone, string> = {
 }
 export function Tag({ tone = 'neutral', children }: { tone?: Tone; children: ReactNode }) {
   return (
-    <span className={clsx('inline-flex items-center gap-1.5 text-[11px] font-semibold tracking-wide whitespace-nowrap uppercase', textStyles[tone])}>
+    <span className={clsx('inline-flex items-center gap-1.5 text-xs font-medium whitespace-nowrap', textStyles[tone])}>
       <span aria-hidden className={clsx('size-1.5 shrink-0', dotStyles[tone])} />
       {children}
     </span>
@@ -152,7 +152,7 @@ export function Checkbox({ label, checked, onChange }: { label: string; checked:
 
 export function FormError({ message }: { message: string }) {
   if (!message) return null
-  return <p className="border-l-2 border-danger bg-danger-soft px-3 py-2 text-sm text-danger">{message}</p>
+  return <p className="rounded-md bg-danger-soft px-3 py-2 text-sm text-danger">{message}</p>
 }
 
 /* ---------- Modal ---------- */
@@ -179,7 +179,7 @@ export function Modal({ open, onClose, title, children, footer }: { open: boolea
         className="flex max-h-[92vh] w-full flex-col border bg-surface sm:max-w-lg sm:rounded-lg"
       >
         <header className="flex items-center justify-between border-b py-2 pr-2 pl-5">
-          <h2 className="display text-xl">{title}</h2>
+          <h2 className="text-base font-semibold">{title}</h2>
           <IconButton label={t('common.close')} onClick={onClose}>
             <X size={18} />
           </IconButton>
@@ -232,8 +232,8 @@ export function PageHeader({ title, meta, actions }: { title: string; meta?: Rea
   return (
     <div className="mb-6 flex flex-col gap-4 border-b pb-5 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h1 className="display text-4xl sm:text-5xl">{title}</h1>
-        {meta && <p className="mt-2 font-mono text-xs text-muted">{meta}</p>}
+        <h1 className="display text-3xl sm:text-4xl">{title}</h1>
+        {meta && <p className="mt-1 text-sm text-muted">{meta}</p>}
       </div>
       {actions && <div className="flex flex-wrap gap-2">{actions}</div>}
     </div>
@@ -312,7 +312,7 @@ export function Pagination({ meta, onPage }: { meta: PageMeta; onPage: (p: numbe
   if (meta.totalPages <= 1) return null
   return (
     <div className="flex items-center justify-between border-t px-4 py-2.5">
-      <span className="font-mono text-xs text-muted">{t('common.pageOf', { page: meta.page, total: meta.totalPages })}</span>
+      <span className="text-xs text-muted">{t('common.pageOf', { page: meta.page, total: meta.totalPages })}</span>
       <div className="flex gap-1">
         <IconButton label={t('common.prev')} disabled={meta.page <= 1} onClick={() => onPage(meta.page - 1)} className="disabled:opacity-30">
           <ChevronLeft size={18} />

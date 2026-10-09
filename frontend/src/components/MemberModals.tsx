@@ -105,7 +105,7 @@ export function MemberFormModal({ open, member, onClose, onSaved }: { open: bool
         <Field label={t('member.gender')}>
           {(id) => (
             <Select id={id} value={form.gender} onChange={(e) => set('gender', e.target.value as Gender | '')}>
-              <option value="">—</option>
+              <option value="">-</option>
               <option value="MALE">{t('member.gender.MALE')}</option>
               <option value="FEMALE">{t('member.gender.FEMALE')}</option>
             </Select>
@@ -123,7 +123,7 @@ export function MemberFormModal({ open, member, onClose, onSaved }: { open: bool
                 <option value="">{t('member.noInitialPlan')}</option>
                 {(plans.data ?? []).map((p) => (
                   <option key={p.id} value={p.id}>
-                    {p.name} — {t('plan.days', { n: p.durationDays })} — {money(p.price)}
+                    {p.name}, {t('plan.days', { n: p.durationDays })}, {money(p.price)}
                   </option>
                 ))}
               </Select>
@@ -202,7 +202,7 @@ export function MembershipModal({ member, onClose, onSaved }: { member: Pick<Mem
           {member?.activeMembership && (
             <span className="text-muted">
               {' '}
-              · {member.activeMembership.plan.name}, {t('member.validUntil').toLowerCase()} {date(member.activeMembership.endDate)}
+             , {member.activeMembership.plan.name}, {t('member.validUntil').toLowerCase()} {date(member.activeMembership.endDate)}
             </span>
           )}
         </p>
@@ -213,8 +213,8 @@ export function MembershipModal({ member, onClose, onSaved }: { member: Pick<Mem
               <label key={p.id} className="flex cursor-pointer items-center gap-3 px-3 py-2.5 has-checked:bg-surface-2">
                 <input type="radio" name="plan" className="accent-[var(--ink)]" checked={planId === p.id} onChange={() => setPlanId(p.id)} />
                 <span className="flex-1 text-sm font-medium">{p.name}</span>
-                <span className="font-mono text-xs text-muted">{t('plan.days', { n: p.durationDays })}</span>
-                <span className="w-28 text-right font-mono text-sm">{money(p.price)}</span>
+                <span className="text-xs text-muted">{t('plan.days', { n: p.durationDays })}</span>
+                <span className="w-28 text-right text-sm">{money(p.price)}</span>
               </label>
             ))}
           </div>

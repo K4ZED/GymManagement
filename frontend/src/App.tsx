@@ -33,9 +33,9 @@ function NotFound() {
   const { t } = useI18n()
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-      <p className="display text-8xl">404</p>
+      <p className="display text-5xl">404</p>
       <p className="text-muted">{t('errors.notFoundPage')}</p>
-      <Link to="/" className="text-sm font-semibold underline decoration-primary decoration-2 underline-offset-4">
+      <Link to="/" className="text-sm font-semibold underline underline-offset-4">
         {t('common.back')}
       </Link>
     </div>

@@ -16,8 +16,8 @@ export default function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <p className="eyebrow">{t(`role.${user.role}`)}</p>
-        <h1 className="display mt-1 text-4xl">{user.name}</h1>
+        <h1 className="display text-3xl">{user.name}</h1>
+        <p className="mt-1 text-sm text-muted">{t(`role.${user.role}`)}</p>
       </div>
 
       <Panel
@@ -71,7 +71,7 @@ function DetailsView({ user }: { user: Me }) {
       {rows.map(([label, value]) => (
         <div key={label} className="flex justify-between gap-4 px-4 py-2.5 text-sm">
           <dt className="shrink-0 text-muted">{label}</dt>
-          <dd className="text-right whitespace-pre-line">{value || '—'}</dd>
+          <dd className="text-right whitespace-pre-line">{value || '-'}</dd>
         </div>
       ))}
     </dl>
@@ -138,7 +138,7 @@ function DetailsForm({ user, onDone }: { user: Me; onDone: () => void }) {
           <Field label={t('member.gender')}>
             {(id) => (
               <Select id={id} value={form.gender} onChange={(e) => set('gender', e.target.value as Gender | '')}>
-                <option value="">—</option>
+                <option value="">-</option>
                 <option value="MALE">{t('member.gender.MALE')}</option>
                 <option value="FEMALE">{t('member.gender.FEMALE')}</option>
               </Select>

@@ -38,7 +38,7 @@ export default function UsersPage() {
                       </Td>
                       <Td className="text-sm">{u.email}</Td>
                       <Td className="eyebrow">{t(`role.${u.role}`)}</Td>
-                      <Td className="font-mono text-xs">{date(u.createdAt)}</Td>
+                      <Td className="text-xs">{date(u.createdAt)}</Td>
                       <Td>{u.isActive ? <Tag tone="success">{t('common.active')}</Tag> : <Tag>{t('common.inactive')}</Tag>}</Td>
                       <Td className="text-right">
                         <Button size="sm" variant="ghost" onClick={() => setEditing(u)}>

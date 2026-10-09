@@ -38,7 +38,7 @@ export default function PortalLayout() {
               to={to}
               end={to === root}
               className={({ isActive }) =>
-                clsx('py-1 text-sm font-medium', isActive ? 'border-b-2 border-primary text-text' : 'text-muted hover:text-text')
+                clsx('py-1 text-sm font-medium', isActive ? 'border-b-2 border-ink text-text' : 'text-muted hover:text-text')
               }
             >
               {t(label)}
@@ -61,8 +61,8 @@ export default function PortalLayout() {
               end={to === root}
               className={({ isActive }) =>
                 clsx(
-                  'flex flex-1 flex-col items-center gap-1 border-t-2 pt-2 pb-2.5 text-[11px] font-semibold',
-                  isActive ? 'border-primary text-text' : 'border-transparent text-muted',
+                  'flex flex-1 flex-col items-center gap-1 border-t-2 pt-2 pb-2.5 text-xs font-medium',
+                  isActive ? 'border-ink text-text' : 'border-transparent text-muted',
                 )
               }
             >

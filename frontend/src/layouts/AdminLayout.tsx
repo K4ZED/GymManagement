@@ -71,8 +71,8 @@ export default function AdminLayout() {
             end={to === '/admin'}
             className={({ isActive }) =>
               clsx(
-                'flex items-center border-l-[3px] px-4 py-2 text-sm font-medium transition',
-                isActive ? 'border-primary bg-surface-2 text-text' : 'border-transparent text-muted hover:text-text',
+                'mx-2 flex items-center rounded-md px-3 py-2 text-sm transition',
+                isActive ? 'bg-surface-2 font-semibold text-text' : 'text-muted hover:bg-surface-2 hover:text-text',
               )
             }
           >

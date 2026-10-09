@@ -28,11 +28,11 @@ export default function DashboardPage() {
             {/* Deret angka utama: satu blok bergaris, bukan kartu ikon */}
             <div className="grid grid-cols-2 border-t border-l bg-surface md:grid-cols-3">
               <Kpi label={t('dashboard.activeMembers')} value={num(s.activeMembers)} note={t('dashboard.ofTotal', { n: s.totalMembers })} />
-              <Kpi label={t('dashboard.checkInsToday')} value={num(s.checkInsToday)} accent />
+              <Kpi label={t('dashboard.checkInsToday')} value={num(s.checkInsToday)} />
               <Kpi label={t('dashboard.classesToday')} value={num(s.classesToday)} />
               <Kpi label={t('dashboard.expiring')} value={num(s.expiringIn7Days)} />
               <Kpi label={t('dashboard.newMembers')} value={num(s.newMembersThisMonth)} />
-              <Kpi label={t('dashboard.revenue')} value={money(s.membershipRevenueThisMonth)} small />
+              <Kpi label={t('dashboard.revenue')} value={money(s.membershipRevenueThisMonth)} />
             </div>
 
             <div className="grid gap-6 lg:grid-cols-5">
@@ -54,8 +54,8 @@ export default function DashboardPage() {
                         <Link to={`/admin/members/${m.member.id}`} className="flex items-center gap-3 px-4 py-2.5 hover:bg-surface-2">
                           <div className="min-w-0 flex-1">
                             <p className="truncate text-sm font-medium">{m.member.name}</p>
-                            <p className="font-mono text-xs text-muted">
-                              {m.member.memberCode} · {m.plan.name}
+                            <p className="text-xs text-muted">
+                              {m.member.memberCode}, {m.plan.name}
                             </p>
                           </div>
                           <Tag tone={daysUntil(m.endDate) <= 3 ? 'danger' : 'warning'}>{t('member.daysLeft', { n: daysUntil(m.endDate) })}</Tag>
@@ -76,16 +76,16 @@ export default function DashboardPage() {
                     <li key={c.id} className="flex items-center gap-4 px-4 py-3">
                       <span className="display w-24 shrink-0 text-xl">
                         {time(c.startAt)}
-                        <span className="text-muted">–{time(c.endAt)}</span>
+                        <span className="text-muted">-{time(c.endAt)}</span>
                       </span>
                       <div className="min-w-0 flex-1">
                         <p className="truncate text-sm font-semibold">{c.name}</p>
                         <p className="truncate text-xs text-muted">
                           {c.trainer.name}
-                          {c.room && ` · ${c.room}`}
+                          {c.room && `, ${c.room}`}
                         </p>
                       </div>
-                      <span className="hidden font-mono text-xs text-muted sm:inline">{t('class.slots', { booked: c.bookedCount, capacity: c.capacity })}</span>
+                      <span className="hidden text-xs text-muted sm:inline">{t('class.slots', { booked: c.bookedCount, capacity: c.capacity })}</span>
                       <ClassTag status={c.status} />
                     </li>
                   ))}
@@ -99,11 +99,11 @@ export default function DashboardPage() {
   )
 }
 
-function Kpi({ label, value, note, accent, small }: { label: string; value: ReactNode; note?: string; accent?: boolean; small?: boolean }) {
+function Kpi({ label, value, note }: { label: string; value: ReactNode; note?: string }) {
   return (
-    <div className="border-r border-b px-4 py-4 sm:px-5">
+    <div className="border-r border-b px-4 py-3">
       <p className="eyebrow">{label}</p>
-      <p className={`display mt-2 ${small ? 'text-3xl sm:text-4xl' : 'text-5xl'} ${accent ? 'text-primary' : ''}`}>{value}</p>
+      <p className="mt-1 text-2xl font-semibold tabular-nums">{value}</p>
       {note && <p className="mt-1 text-xs text-muted">{note}</p>}
     </div>
   )
@@ -113,7 +113,7 @@ function ViewAll({ to }: { to: string }) {
   const { t } = useI18n()
   return (
     <Link to={to} className="text-xs font-semibold text-muted hover:text-text">
-      {t('common.viewAll')} →
+      {t('common.viewAll')}
     </Link>
   )
 }
